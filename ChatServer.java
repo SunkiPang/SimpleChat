@@ -143,7 +143,7 @@ class ChatThread extends Thread{
 			if(msg.indexOf(bad_String[i]) != -1){
 				flag = 0;
 				PrintWriter pw = (PrintWriter)hm.get(id);
-				pw.println(bad_String[i] + " is bad word!!");
+				pw.println("Don't use " + bad_String[i]);
 				pw.flush();
 			}
 		}
