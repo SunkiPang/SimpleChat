@@ -13,7 +13,7 @@ public class ChatClient {
 		PrintWriter pw = null;
 		boolean endflag = false;
 		try{
-			sock = new Socket(args[1], 10001);
+			sock = new Socket(args[1], 10006);
 			pw = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
 			br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
