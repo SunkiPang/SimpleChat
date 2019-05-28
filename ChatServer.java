@@ -112,11 +112,14 @@ class ChatThread extends Thread{
 		synchronized(hm){
 			Collection collection = hm.values();
 			Iterator iter = collection.iterator();
+			PrintWriter obj = (PrintWriter)hm.get(id);
 			while(iter.hasNext()){
 
 				//System.out.println(iter.next());
 				PrintWriter pw = (PrintWriter)iter.next();
-
+				if(obj == pw){
+					continue;
+				}
 
 				pw.println(msg);
 				pw.flush();
