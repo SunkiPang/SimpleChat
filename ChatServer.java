@@ -104,13 +104,18 @@ class ChatThread extends Thread{
 		}
 	} // sendmsg
 	public void send_userlist(){
-		broadcast("--------user list--------");
 
+		PrintWriter pw = (PrintWriter)hm.get(id);
 		Iterator <String> iter = hm.keySet().iterator();
+		pw.println("--------user list--------");
 		while(iter.hasNext()){
 			String keys = (String)iter.next();
 			//System.out.println(keys);
-			broadcast(keys);
+
+			pw.println(keys);
+			pw.flush();
+
+			//broadcast(keys);
 		}
 	}//send_userlist
 
