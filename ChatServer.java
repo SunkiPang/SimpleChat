@@ -37,6 +37,8 @@ class ChatThread extends Thread{
 	private BufferedReader br;
 	private HashMap hm;
 	private boolean initFlag = false;
+	private String[] bad_String = {"bad1","bad2","bad3","bad4","bad5"};
+
 	public ChatThread(Socket sock, HashMap hm){
 		this.sock = sock;
 		this.hm = hm;
@@ -126,4 +128,23 @@ class ChatThread extends Thread{
 			}
 		}
 	} // broadcast
+
+	public boolean check_msg(String msg){
+
+
+		int flag = 0;
+		for(String str : bad_String){
+			if(msg.indexOf(str) != -1){
+				flag = 1;
+			}
+		}
+		if(flag == 1)
+			return true;
+		else
+			return false;
+	}
+
+
+
+
 }
