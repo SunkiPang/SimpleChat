@@ -37,7 +37,6 @@ class ChatThread extends Thread{
 	private BufferedReader br;
 	private HashMap hm;
 	private boolean initFlag = false;
-	private String[] bad_String = {"bad1","bad2","bad3","bad4","bad5"};
 
 	public ChatThread(Socket sock, HashMap hm){
 		this.sock = sock;
@@ -64,12 +63,18 @@ class ChatThread extends Thread{
 				//System.out.println(line);
 				if(line.equals("/quit"))
 					break;
-				if(line.indexOf("/to ") == 0){
-					sendmsg(line);
-				}else if(line.equals("/userlist")){
-					send_userlist();
-				}else
-					broadcast(id + " : " + line);
+				if(check_msg(line)){
+					if(line.indexOf("/to ") == 0){
+						sendmsg(line);
+					}else if(line.equals("/userlist")){
+						send_userlist();
+					}else
+						broadcast(id + " : " + line);
+				}
+				else{
+					sendmsg("bad word!!");
+				}
+
 			}
 		}catch(Exception ex){
 			System.out.println(ex);
@@ -132,10 +137,14 @@ class ChatThread extends Thread{
 	public boolean check_msg(String msg){
 
 
-		int flag = 0;
-		for(String str : bad_String){
-			if(msg.indexOf(str) != -1){
-				flag = 1;
+		String[] bad_String = {"bad1","bad2","bad3","bad4","bad5"};
+		int flag = 1;
+		for(int i = 0; i < bad_String.length; i++){
+			if(msg.indexOf(bad_String[i]) != -1){
+				flag = 0;
+				PrintWriter pw = (PrintWriter)hm.get(id);
+				pw.println(bad_String[i] + " is bad word!!");
+				pw.flush();
 			}
 		}
 		if(flag == 1)
