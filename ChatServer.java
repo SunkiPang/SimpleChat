@@ -2,11 +2,22 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+
+/*
+
+
+
+
+*/
+
+
+
+
 public class ChatServer {
 
 	public static void main(String[] args) {
 		try{
-			ServerSocket server = new ServerSocket(10001);
+			ServerSocket server = new ServerSocket(10006);
 			System.out.println("Waiting connection...");
 			HashMap hm = new HashMap();
 			while(true){
@@ -47,10 +58,14 @@ class ChatThread extends Thread{
 		try{
 			String line = null;
 			while((line = br.readLine()) != null){
+
+				//System.out.println(line);
 				if(line.equals("/quit"))
 					break;
 				if(line.indexOf("/to ") == 0){
 					sendmsg(line);
+				}else if(line.equals("/userlist")){
+					send_userlist();
 				}else
 					broadcast(id + " : " + line);
 			}
@@ -81,12 +96,28 @@ class ChatThread extends Thread{
 			} // if
 		}
 	} // sendmsg
+	public void send_userlist(){
+		broadcast("--------user list--------");
+
+		Iterator <String> iter = hm.keySet().iterator();
+		while(iter.hasNext()){
+			String keys = (String)iter.next();
+			//System.out.println(keys);
+			broadcast(keys);
+		}
+	}//send_userlist
+
+
 	public void broadcast(String msg){
 		synchronized(hm){
 			Collection collection = hm.values();
 			Iterator iter = collection.iterator();
 			while(iter.hasNext()){
+
+				//System.out.println(iter.next());
 				PrintWriter pw = (PrintWriter)iter.next();
+
+
 				pw.println(msg);
 				pw.flush();
 			}
